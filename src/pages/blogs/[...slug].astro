@@ -1,0 +1,35 @@
+---
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+    const blogEntries = await getCollection("blogs");
+    return blogEntries.map((entry) => ({
+        params: { slug: entry.slug },
+        props: { entry },
+    }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{entry.data.title}</title>
+        <style>
+            @import url("https://api.fontshare.com/v2/css?f[]=clash-display@200,400,700,500,600,1,300&f[]=zodiak@901,700,800,401,301,400,101,1,801,701,900,300,100,2&display=swap");
+        </style>
+    </head>
+    <body class="bg-black text-white">
+        <div
+            class="max-w-full prose flex justify-center items-start flex-col m-5 mr-20 prose-headings:text-white prose-p:text-white prose-p:text-lg prose-a:text-black prose-a:bg-white prose-a:transition-colors prose-strong:text-white prose-em:text-white prose-ol:text-white prose-ul:text-white prose-code:font-mono prose-code:text-white prose-td:text-white prose-p:font-medium"
+        >
+            <span class="opacity-70 font-bold">@ {entry.data.title}</span>
+            <Content />
+        </div>
+    </body>
+</html>

@@ -1,0 +1,71 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Box from "../layouts/Box.astro";
+import { getCollection } from "astro:content";
+import Card from "../components/Card.astro";
+
+const blogs = await getCollection("blogs");
+// const games = await getCollection("games");
+---
+
+<Layout title="Home">
+	<Box flex addStyle="flex-col md:flex-row items-start">
+		<Box
+			width="md:w-2/5 w-full"
+			addStyle="p-5 overflow-scroll text-white bg-black"
+		>
+			<h1 class="text-5xl xl:text-7xl font-black">Kanishk</h1>
+			<span class="text-lg leading-tight font-medium"
+				>A game developer based in India (🇮🇳)
+
+				<br />
+				<br />
+
+				Studying in Army Public School, Barrackpore
+
+				<br />
+				<br />
+
+				Having knowledge of different languages and technologies C++,
+				Java, OpenGL, and many other game libraries</span
+			>
+
+			<h2 class="text-2xl font-bold italic my-4">Blogs</h2>
+
+			{
+				blogs.map((blog) => {
+					return (
+						<Card
+							title={blog.data.title.toUpperCase()}
+							to={`/blogs/${blog.slug}`}
+						/>
+					);
+				})
+			}
+		</Box>
+
+		<Box
+			width="w-full"
+			height="h-full"
+			addStyle="p-5 overflow-scroll bg-black text-white"
+		>
+			<h2 class="text-2xl font-bold italic my-2">Games</h2>
+
+			<span class="text-lg leading-tight font-medium"
+				>Your own Virtual Retro Game Arcade, that contains a lot of
+				games for passing time pleasantly.</span
+			>
+
+			<!-- {
+				games.map((game) => {
+					return (
+						<Card
+							title={game.data.title}
+							to={`/blogs/${game.slug}`}
+						/>
+					);
+				})
+			} -->
+		</Box>
+	</Box>
+</Layout>
